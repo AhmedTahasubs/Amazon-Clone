@@ -6,7 +6,7 @@ import { MapPin ,Search } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef , useState} from "react";
 import { getCartProducts } from "../../slices/cart.slice";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -20,6 +20,8 @@ const Header =() => {
   const menuRef = useRef(null)
   const dispatch = useDispatch();
   const cartInfo = useSelector(store=>store.cartReducer.cartInfo)
+  const [searchText, setSearchText] = useState("");
+
   useEffect(()=>{
     dispatch(getCartProducts())
   },[])
@@ -81,11 +83,15 @@ const Header =() => {
                 type="text" 
                 placeholder="Search Amazon.in"
                 className="h-full px-2 border-none outline-none text-[#131921] "
+                value={searchText}
+                onChange={(e)=> setSearchText(e.target.value)}
               />
-              <button onClick={(e) => e.preventDefault()} className="bg-[#FFCC00] text-[#212121] h-full px-2
-              rounded-r-md">
-              <Search className="" />
-              </button>
+              <Link to={`/search/${searchText}`} className=" h-full">
+                <button   className="bg-[#FFCC00] text-[#212121] h-full px-2
+                rounded-r-md">
+                  <Search className="" />
+                </button>
+              </Link>
             </form>
             <Link to='/allorders' className="orders hover:text-amber-50 
             hover:border-amber-50 border-2 border-[#131921] p-1">

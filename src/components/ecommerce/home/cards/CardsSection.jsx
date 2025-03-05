@@ -1,63 +1,63 @@
 import CardItem from "./Card";
 import CardBody from "./CardBody";
+import * as img from "./index";
+
 function CardsSection () {
     const body1 = 
         <>
-            <CardBody src="public/assets/images/card1/11.jpg" text="Women perfumes and more"/>
-            <CardBody src="/public/assets/images/card1/12.png" text="Women cosmotics and more"/>
-            <CardBody src="/public/assets/images/card1/13.avif" text="Home decor and essentials"/>
-            <CardBody src="/public/assets/images/card1/14.jpg" text="surprises and gifts"/>
+            <CardBody src={img.img11} text="Women perfumes and more"/>
+            <CardBody src={img.img12} text="Women cosmotics and more"/>
+            <CardBody src={img.img13} text="Home decor and essentials"/>
+            <CardBody src={img.img14} text="surprises and gifts"/>
         </>;
     const body2 = 
             <>
-                <CardBody src="/public/assets/images/card2/21.jpg" text="refrigerators" />
-                <CardBody src="/public/assets/images/card2/22.webp" text="Air conditioners"/>
-                <CardBody src="/public/assets/images/card2/23.jpg" text="Microwaves"/>
-                <CardBody src="/public/assets/images/card2/24.webp" text="Washing machines"/>
+                <CardBody src={img.img21} text="refrigerators" />
+                <CardBody src={img.img22} text="Air conditioners"/>
+                <CardBody src={img.img23} text="Microwaves"/>
+                <CardBody src={img.img24} text="Washing machines"/>
             </>;
-    
             const body3 = 
             <>
-                <CardBody src="/public/assets/images/card3/331.jpg" text="Starting 249$ | Boat" />
-                <CardBody src="/public/assets/images/card3/332.jpg" text="Starting 349$ | Bolut"/>
-                <CardBody src="/public/assets/images/card3/333.jpg" text="Starting 649$ | Noise"/>
-                <CardBody src="/public/assets/images/card3/334.webp" text="Starting 149$ | Zebronic"/>
+                <CardBody src={img.img331} text="Starting 249$ | Boat" />
+                <CardBody src={img.img332} text="Starting 349$ | Bolut"/>
+                <CardBody src={img.img333} text="Starting 649$ | Noise"/>
+                <CardBody src={img.img334} text="Starting 149$ | Zebronic"/>
             </>;
-              
             const body4 = 
             <>
-                <CardBody src="/public/assets/images/card4/41.webp" text="Up to 70% off | shoes" />
-                <CardBody src="/public/assets/images/card4/42.jpg" text="Up to 60% off"/>
-                <CardBody src="/public/assets/images/card4/43.jpeg" text="Starting 249$ | toys & games"/>
-                <CardBody src="/public/assets/images/card4/44.jpg" text="Starting 249$ | Home"/>
+                <CardBody src={img.img41} text="Up to 70% off | shoes" />
+                <CardBody src={img.img42} text="Up to 60% off"/>
+                <CardBody src={img.img43} text="Starting 249$ | toys & games"/>
+                <CardBody src={img.img44} text="Starting 249$ | Home"/>
             </>;
             const body5 = 
             <>
-                <CardBody src="/public/assets/images/card5/51.jpg" text="Modern decoration" />
-                <CardBody src="/public/assets/images/card5/52.jpeg" text="Up to 60% off "/>
-                <CardBody src="/public/assets/images/card5/53.jpg" text="Starting 49$ | walldecor"/>
-                <CardBody src="/public/assets/images/card5/54.jpg" text="flash sale | wooden decors"/>
+                <CardBody src={img.img51} text="Modern decoration" />
+                <CardBody src={img.img52} text="Up to 60% off "/>
+                <CardBody src={img.img53} text="Starting 49$ | walldecor"/>
+                <CardBody src={img.img54} text="flash sale | wooden decors"/>
             </>; 
             const body6 = 
             <>
-                <CardBody src="/public/assets/images/card6/61.jpg" text="Modern sofa & comfortable" />
-                <CardBody src="/public/assets/images/card6/62.webp" text="Up to 20% off modern salon"/>
-                <CardBody src="/public/assets/images/card6/63.jpg" text="Wide variety of couches"/>
-                <CardBody src="/public/assets/images/card6/64.jpg" text="Order now & get 30% off"/>
+                <CardBody src={img.img61} text="Modern sofa & comfortable" />
+                <CardBody src={img.img62} text="Up to 20% off modern salon"/>
+                <CardBody src={img.img63} text="Wide variety of couches"/>
+                <CardBody src={img.img64} text="Order now & get 30% off"/>
             </>;    
             const body7 = 
             <>
-                <CardBody src="/public/assets/images/card7/711.jpg" text="starting 199$ | Bedsheets" />
-                <CardBody src="/public/assets/images/card7/72.jpg" text="Up to 20% off | classic bedwears"/>
-                <CardBody src="/public/assets/images/card7/733.jpg" text="Wide variety of Blankets"/>
-                <CardBody src="/public/assets/images/card7/744.jpg" text="Order now | free delivery"/>
+                <CardBody src={img.img71} text="starting 199$ | Bedsheets" />
+                <CardBody src={img.img72} text="Up to 20% off | classic bedwears"/>
+                <CardBody src={img.img73} text="Wide variety of Blankets"/>
+                <CardBody src={img.img74} text="Order now | free delivery"/>
             </>; 
              const body8 = 
              <>
-                 <CardBody src="/public/assets/images/card8/811.jpg" text="starting 199$ |Leather products" />
-                 <CardBody src="/public/assets/images/card8/822.jpeg" text="Up to 20% off | shoes and bag"/>
-                 <CardBody src="/public/assets/images/card8/82.jpeg" text="All what you dream | only needs click"/>
-                 <CardBody src="/public/assets/images/card8/844.webp" text="Free delivery for 3 days"/>
+                 <CardBody src={img.img81} text="starting 199$ |Leather products" />
+                 <CardBody src={img.img82} text="Up to 20% off | shoes and bag"/>
+                 <CardBody src={img.img83} text="All what you dream | only needs click"/>
+                 <CardBody src={img.img84} text="Free delivery for 3 days"/>
              </>; 
 
     return (

@@ -6,34 +6,33 @@ import Toast from "../../Toast";
 import {addProductToWishlist} from "../../../slices/wishlist.slice";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addProductToCart, BuyNow, updateProductCount } from "../../../slices/cart.slice";
+import { addProductToCart, BuyNow} from "../../../slices/cart.slice";
+
 function Product () {
     const { id } = useParams();
     const isLoadingWishList = useSelector(store=>store.wishlistReducer.isLoadingWishList)
     const isLoadingUpdateCart =useSelector(store=>store.cartReducer.isLoadingUpdateCart)
-    const cartInfo = useSelector(store=>store.cartReducer.cartInfo)    
-    const quantityItem =useSelector(store=>store.cartReducer.quantityItem)
     const dispatch = useDispatch();
+    const [quantity, setQuantity] = useState(1);
     const [productInfo, setProductInfo] = useState(null);
     const [choosenImg, setChoosenImg] = useState(0);
     const [showToast, setShowToast] = useState(false);
     const dummyStars= [0,6,0,71,0];
-    const dummyComments= [{img:"/src/assets/images/image.png", userName:"Brooke",  stars:4,
+    const dummyComments= [{img:"/image.png", userName:"Brooke",  stars:4,
             title:"Favorite dress", location:"the United States", date:"6 August 2024", 
             size:"40", color:"Black", Verified:true, desc:"I initially purchased this dress on sale. It turned out to be my favorite dress of this summer. It is extremely versatile and unexpectedly flattering. When I accidentally tore it, I was really upset. My husband told me to buy it again, which I typically wouldn't do. It wasn't on sale and I am so frugal. The dress washes very well and I always get compliments when I wear it." },
-        {img:"/src/assets/images/image (1).png", userName:"Elva S. D.",  stars:4, 
+        {img:"/image (1).png", userName:"Elva S. D.",  stars:4, 
             title:"Lindo!!", location:"Mexico", date:"11 August 2023", 
              Verified:true, desc:"Bien hecho, bonita tela y bonita caída, fresco y casual.La marca lo dice!!"},
-        {img:"/src/assets/images/image.png", userName:"Jenny",  stars:2, 
+        {img:"/image.png", userName:"Jenny",  stars:2, 
             title:"La mejor ropa para este fin de semana", location:"Colombia", date:"15 August 2022", 
              Verified:false, desc:"Esta ropa es muy buena y muy recomendada para este fin de semana. La marca lo dice!!"},
-        {img:"/src/assets/images/image.png", userName:"Jenny",  stars:4, 
+        {img:"/image.png", userName:"Jenny",  stars:4, 
             title:"La mejor ropa para este fin de semana", location:"Colombia", date:"15 August 2022", 
             size:"33", color:"Black" , Verified:true, desc:"Esta ropa es muy buena y muy recomendada para este fin de semana. La marca lo dice!!"}];
 
     const getProduct =async() =>{
         const productdata = (await axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)).data.data;
-        // const productdata = (await axios.get("https://ecommerce.routemisr.com/api/v1/products/6428de2adc1175abc65ca05b")).data.data;
         setProductInfo(productdata);
     }
     useEffect(() => {
@@ -66,7 +65,7 @@ function Product () {
                     <span>off with meem credit cards.</span>
                     <p>Enter code MEEM20 at checkout. Discount by Amazon.</p>
                     </div>
-                    <img src="/src/assets/images/PayAdv.png" alt="payment advantages" className="m-2 sm:w-1/2 w-3/4 xl:w-[300px]"/>
+                    <img src="/PayAdv.png" alt="payment advantages" className="m-2 sm:w-1/2 w-3/4 xl:w-[300px]"/>
                     {/* product description */}
                     <p className="font-bold">About this item</p>
                     <p className="ml-2">{productInfo.description}</p>
@@ -83,14 +82,14 @@ function Product () {
                     <p className="text-[#B12704]">Usually ships within 4 to 5 days</p>
                     <p className="text-xl text-center flex gap-2">
                         <button onClick={()=>{
-                            // dispatch(updateProductCount({productId:id,count:quantity}))
+                                if(quantity > 1) setQuantity(quantity - 1);
                             }} className="bg-[#1F8394] rounded-full w-8 text-white  hover:brightness-125">-</button>
-                        Quantity: {quantityItem} 
+                        Quantity: {quantity} 
                         <button onClick={()=>{
-                            // dispatch(updateProductCount({productId:id,count:quantity}))
+                            setQuantity(quantity + 1);
                             }} className="bg-[#1F8394] rounded-full w-8 text-white  hover:brightness-125">+</button>
                     </p>
-                    <button className="rounded-full bg-[#FFD814] w-full h-[26.900775909423828px] my-2 hover:brightness-125" disabled={isLoadingUpdateCart} onClick={()=>{dispatch(addProductToCart(id))}}>Add to Cart</button>
+                    <button className="rounded-full bg-[#FFD814] w-full h-[26.900775909423828px] my-2 hover:brightness-125" disabled={isLoadingUpdateCart} onClick={()=>{dispatch(addProductToCart({ productId: id, count: quantity }))}}>Add to Cart</button>
                     <button className="rounded-full bg-[#FFA41C] w-full h-[31.79073715209961px] my-1 hover:brightness-150"  disabled={isLoadingUpdateCart} onClick={()=>{
                         dispatch(BuyNow(id))
                         }}>Buy Now</button>
@@ -149,7 +148,6 @@ function Product () {
                 </div>
             </div>
             {showToast && <Toast message="Comment has been reported" onClose={() => setShowToast(false)} />}
-                {/* وربط الكارت و ال fav */}
         </div>
     )
 }

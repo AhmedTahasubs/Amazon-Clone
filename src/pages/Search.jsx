@@ -4,82 +4,54 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import LottieComponent from "../components/common/lottie/LottieComponent";
+import { useParams } from "react-router-dom";
 
-function Products(){
+
+function Search(){
+    const { searchText } = useParams();
     const [currentPage, setCurrentPage] = useState(1);
     const [products, setProducts] = useState(null);
-  
     const filter = useRef(null)
+
     
     useEffect(() => {
         let isMount = true;
-          const fetchData = async () => {
-            try {
-                const response = await axios.get(`https://ecommerce.routemisr.com/api/v1/products?limit=20&page=${currentPage}`);
-                setProducts(response.data)
+        const fetchData = async () => {
+        try {
+                const response = await axios.get(`https://ecommerce.routemisr.com/api/v1/products?limit=20&page=${currentPage}`)
+                let data = response.data.data.filter((i) => {
+                    const brandName = i?.brand?.name?.toLowerCase() || "";
+                    const description = i?.description?.toLowerCase() || "";
+                    const search = searchText.toLowerCase();
+            
+                    return brandName.includes(search) || description.includes(search);
+                });
+                if (data.length === 0) data = null;
+                setProducts(data);
             }
             catch (error) {
                 console.log(error)
             }
-          }
-          fetchData() 
 
-          return () => {
-            isMount = false;
-          }    
+        }
+        fetchData() 
+        return () => {
+        isMount = false;
+        }    
     }, [currentPage])
     
     function handleFilter () {
         filter.current.classList.toggle('hidden')
     }
-    const handlePriceChange = async(event) => {
-        const rang= event.target.value.split(",").map(number => number);
-        try {
-            const response = await axios.get(`https://ecommerce.routemisr.com/api/v1/products?limit=20&page=${currentPage}&price[gte]=${rang[0]}&price[lte]=${rang[1]}`)
-            setProducts(response.data)                      
-        } catch (error) {
-                console.log(error)
-        }
-        setSelectedPrice(event.target.value);
-    };
-    
     
     return (
         <>
         {products?<div className="category-page md:gap-3 flex flex-col md:flex-row p-6 ">
                 <FontAwesomeIcon onClick={handleFilter} icon={faBars} className="text-3xl cursor-pointer md:hidden mb-3"/>
-                <aside ref={filter} className="hidden md:block">
-                    <section className="flex flex-col justify-start gap-6 
-                    w-[150px] text-sm ">
-                        <div>
-                            <h3>Price</h3>
-                            <label>
-                                <input type="radio" name="price" value={"0,150000"} onChange={handlePriceChange} />
-                                All 
-                            </label>
-                            <label>
-                                <input type="radio" name="price" value={"0,1000"} onChange={handlePriceChange} />
-                                ₹0 to ₹1000
-                            </label>
-                            <label>
-                                <input type="radio" name="price" value={"1000,4000"} onChange={handlePriceChange} />
-                                ₹1000 to ₹4000
-                            </label>
-                            <label>
-                                <input type="radio" name="price" value={"4000,10000"} onChange={handlePriceChange} />
-                                ₹4000 to ₹10,000
-                            </label>
-                            <label>
-                                <input type="radio" name="price" value={"10000,15000"} onChange={handlePriceChange} />
-                                ₹10,000 to ₹15,000
-                            </label>
-                        </div>
-                    </section>
-                </aside>
                 <section className="grid grid-cols-1 gap-5 overflow-auto
                 sm:grid-cols-2 lg:grid-cols-4">
                     {
-                        products?.data.map((product, i) => (
+                        products?.map((product, i) => (
                             <Card
                             key= {i}
                             description={product.description} 
@@ -126,10 +98,13 @@ function Products(){
                     </button>
                 </div>
                 </section>
-            </div>:<div><LottieComponent type="loadingAnimation"/></div>}
+            </div>:<div className="text-center text-gray-500 p-4">
+                    <p className="text-lg font-semibold">No results found for "{searchText}"</p>
+                    <p>Try searching for something else.</p>
+                </div>}
             
         </>
     )
 }
 
-export default Products;
+export default Search;

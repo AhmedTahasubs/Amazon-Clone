@@ -19,6 +19,7 @@ import { store } from "../store/store";
 import { Toaster } from "react-hot-toast";
 import LottieComponent from "../components/common/lottie/LottieComponent";
 import Error from "../pages/Error";
+const Search = lazy(() => import("../pages/Search"));
 const AppRouter = () => {
   return (
     <Provider store={store}>
@@ -29,6 +30,7 @@ const AppRouter = () => {
             <Route path="/" element={<ProtectedRoute><LayoutUser/></ProtectedRoute>} >
             <Route index element={<Home />}  />
             <Route path="/products" element={<Products />} />
+            <Route path="/search/:searchText" element={<Search />} />
             <Route path="/product/:id" element={<Product />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/wishlist" element={<Wishlist />} />

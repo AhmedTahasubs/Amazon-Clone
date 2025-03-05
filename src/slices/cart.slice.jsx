@@ -19,7 +19,7 @@ export const getCartProducts = createAsyncThunk("cart/getCartProducts",async(_,{
     finally{
     }
 })
-export const addProductToCart = createAsyncThunk("cart/addProductToCart",async(productId,{getState})=>{
+export const addProductToCart = createAsyncThunk("cart/addProductToCart",async({productId, count=1},{getState})=>{
     toastId = toast.loading("Adding Product to your Cart ...")
     const token = getState().userReducer.token;
     const options = {
@@ -36,7 +36,15 @@ export const addProductToCart = createAsyncThunk("cart/addProductToCart",async(p
         const {data} = await axios.request(options)
         if(data.status === "success")
             {
-                toast.success(data.message)
+                //the API returns 2 different formats To handle this:
+                const product = getState().cartReducer.cartInfo.data.products.find(item => item.product.id === productId);
+                const product2 = getState().cartReducer.cartInfo.data.products.find(item => item.product === productId);
+                const oldCount = product ? product.count : product2? product2.count : 0;
+
+                //add the quantity because API does not provide this directly 
+                updateProductCountInAdd({productId, count,token, oldCount});
+
+                toast.success(data.message);
             }
             return data
     } catch (error) {
@@ -47,6 +55,27 @@ export const addProductToCart = createAsyncThunk("cart/addProductToCart",async(p
         toast.dismiss(toastId)
     }
 })
+const updateProductCountInAdd = async({productId,count, token, oldCount})=>{
+    const newCount = oldCount + count; // Add new count to old count
+    const options = {
+        url:`https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
+        method: "PUT",
+        headers: {
+            token,
+        },
+        data:{
+           count: newCount
+        }   
+    }
+    try {
+        const {data} = await axios.request(options)
+        return data
+    }
+    catch (error) {
+        toast.dismiss(toastId)
+        toast.error(error.response.data.message)
+    }
+};
 export const BuyNow = createAsyncThunk("cart/BuyNow",async(productId,{getState})=>{
     toastId = toast.loading("Redirecting ...")
     const token = getState().userReducer.token;

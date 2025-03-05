@@ -90,7 +90,7 @@ export default function Wishlist() {
                         disabled={isLoadingUpdateCart}
                           className="w-10 h-10 rounded-full bg-[#131921] text-lg text-white flex justify-center items-center  hover:scale-110 transition-transform duration-300 hover:rotate-12"
                           onClick={(e) => {
-                            dispatch(addProductToCart(product.id));
+                            dispatch(addProductToCart({productId: product.id}));
                           }}
                         >
                           <i className="fa-solid fa-cart-shopping"></i>
