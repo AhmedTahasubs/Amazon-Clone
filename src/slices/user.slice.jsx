@@ -35,14 +35,19 @@ export const logIn = createAsyncThunk("user/logIn", async (values) => {
   toastId = toast.loading("Logging in...");
   try {
     const { data } = await axios.request(options);
+    console.log(data);
+    
     if (data.message === "success") {
       toast.success("Welcome back");
       setTimeout(() => {
+        localStorage.setItem("token", data.token);
         window.location.href = "/";
       }, 1500);
     }
     return data;
   } catch (error) {
+    console.log(error);
+    
     toast.error(error.response.data.message);
   } finally {
     toast.dismiss(toastId);
@@ -132,8 +137,6 @@ const user = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(logIn.fulfilled, (state, action) => {
-      state.token = action.payload.token;
-      localStorage.setItem("token", action.payload.token);
       state.isLoadingUser = false
     });
     builder.addCase(logIn.pending, (state, action) => {
